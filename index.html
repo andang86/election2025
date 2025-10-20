@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9기 조합·7기 지부 동시선거 안내</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0; /* 모바일 대응을 위해 body 패딩 제거 */
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow: hidden; /* border-radius 적용을 위해 */
+        }
+        header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            color: #0056b3;
+        }
+        /* 출처 명시 스타일 */
+        .attribution {
+            font-size: 0.95em;
+            color: #333;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .attribution strong {
+            color: #0056b3;
+        }
+
+        /* --- 신규 추가: 오늘 날짜 및 현재 일정 --- */
+        .current-info-wrapper {
+            background-color: #fff;
+            padding: 15px 25px 0 25px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .current-info {
+            font-size: 1em;
+            color: #555;
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+        .current-schedule {
+            padding: 15px 20px;
+            background-color: #0056b3; /* 강조 색상 */
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.1em;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .current-schedule.none {
+            background-color: #6c757d; /* 일정이 없을 때 */
+        }
+        /* --- ----------------------------- --- */
+
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            background-color: #f9f9f9;
+            flex-wrap: wrap; 
+        }
+        .tab-button {
+            padding: 15px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+            flex-grow: 1;
+            text-align: center;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            flex-basis: 0;
+            min-width: 120px;
+        }
+        .tab-button:hover {
+            background-color: #e9e9e9;
+            color: #111;
+        }
+        .tab-button.active {
+            color: #0056b3;
+            border-bottom-color: #0056b3;
+        }
+        .tab-content {
+            display: none;
+            padding: 25px;
+            border-top: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #0056b3;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+        h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+        .schedule-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .schedule-list li {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; /* 모바일에서 줄바꿈 */
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .schedule-list li:last-child {
+            border-bottom: none;
+        }
+        .schedule-list strong {
+            color: #333;
+            flex-basis: 50%;
+            min-width: 150px; /* 이름이 잘리지 않게 */
+        }
+        .schedule-list span {
+            color: #d9534f;
+            font-weight: bold;
+            text-align: right;
+            flex-basis: 50%;
+            min-width: 150px;
+        }
+        .note {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        .danger {
+            background-color: #fdf2f2;
+            border: 1px solid #f9c0c0;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            color: #c9302c;
+        }
+
+        /* --- 신규 추가: 모바일 반응형 --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+                background-color: #ffffff; /* 모바일은 흰색 배경 */
+            }
+            .container {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            header {
+                padding: 15px 20px;
+            }
+            header h1 {
+                font-size: 1.5em;
+            }
+            .attribution {
+                font-size: 0.85em;
+            }
+            /* 탭 버튼 글자 크기, 패딩 조절 */
+            .tab-button {
+                padding: 12px 10px;
+                font-size: 14px;
+                min-width: 0; /* 최소 너비 제거 */
+            }
+            .tab-content {
+                padding: 20px;
+            }
+            /* 일정 리스트 모바일 최적화 */
+            .schedule-list li {
+                flex-direction: column; /* 세로 정렬 */
+                align-items: flex-start;
+            }
+            .schedule-list strong {
+                flex-basis: auto;
+                margin-bottom: 5px;
+            }
+            .schedule-list span {
+                flex-basis: auto;
+                text-align: left;
+                font-size: 1.1em;
+            }
+            /* 오늘 날짜 및 현재 일정 */
+            .current-info-wrapper {
+                padding: 10px 20px 0 20px;
+            }
+            .current-info {
+                font-size: 0.95em;
+            }
+            .current-schedule {
+                font-size: 1em;
+                padding: 12px 15px;
+                margin-bottom: 10px;
+            }
+        }
+        /* --- ---------------------- --- */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>9기 조합 · 7기 지부 동시선거 안내</h1>
+            <p>전국화학섬유식품산업노동조합 9기 및 대전충북지부 7기 동시선거</p>
+            <p class="attribution">
+                본 자료는 <strong>화섬식품노조 대전충북지부 선거관리위원회</strong>가 작성·배포합니다.
+            </p>
+        </header>
+
+        <div class="current-info-wrapper">
+            <p id="current-date" class="current-info">오늘 날짜: &nbsp;</p>
+            <div id="current-schedule-banner" class="current-schedule">
+                <strong>현재 진행중인 일정:</strong> 로딩 중...
+            </div>
+        </div>
+        <nav class="tab-nav">
+            <button class="tab-button active" onclick="openTab(event, 'schedule')">전체 선거일정</button>
+            <button class="tab-button" onclick="openTab(event, 'mobile')">모바일투표</button>
+            <button class="tab-button" onclick="openTab(event, 'field')">현장투표</button>
+            <button class="tab-button" onclick="openTab(event, 'rights')">선거권 및 기타</button>
+            <button class="tab-button" onclick="openTab(event, 'committee')">지회 선관위 주의사항</button>
+        </nav>
+
+        <div id="schedule" class="tab-content active">
+            <h2>주요 선거 일정</h2>
+            <ul class="schedule-list">
+                <li><strong>선거공고</strong> <span>10.17(금)</span></li>
+                <li><strong>후보 등록 기간</strong> <span>10.20(월) 09:00 ~ 10.27(월) 18:00</span></li>
+                <li><strong>지회 선관위 구성 및 선거인명부 보고(지회 -> 지부)</strong> <span>10.25(토)</span></li>
+                <li><strong>선거인명부 중앙선관위 보고마감</strong> <span>10.27(월) 18:00</span></li>
+                <li><strong>후보자 자격심사 및 기호추첨</strong> <span>10.27(월) 18시 이후</span></li>
+                <li><strong>입후보자 공고</strong> <span>10.28(화)</span></li>
+                <li><strong>선거운동 기간</strong> <span>10.28(화) ~ 11.16(일)</span></li>
+                <li><strong>선거인명부 열람기간</strong> <span>10.30(목) ~ 11.7(금) 18:00</span></li>
+                <li><strong>이의제기 및 수정요청 마감</strong> <span>11.7(금) 18:00</span></li>
+                <li><strong>선거인명부 최종확정</strong> <span>11.12(수)</span></li>
+                <li><strong>투표기간</strong> <span>11.17(월) 06:30 ~ 11.21(금) 17:00</span></li>
+                <li><strong>당선자 공고</strong> <span>11.21(금)</span></li>
+                <li><strong>이의신청 마감</strong> <span>11.28(금)</span></li>
+                <li><strong>선거자료 폐기</strong> <span>11.29(토)</span></li>
+            </ul>
+        </div>
+
+        <div id="mobile" class="tab-content">
+            <h2>모바일투표 안내</h2>
+            <ul>
+                <li><strong>모바일투표 대상:</strong> 지회 선거인이 2인 이하인 지회는 원칙적으로 모바일투표로 진행합니다. 또한, 현장투표 요건(선거인 3인 이상)을 갖춘 지회라도 투표계획(투표소 위치, 시간, 선관위원 명단)을 기한(10/25 18시) 내 미제출하거나 미비할 경우, 모바일투표로 강제 전환됩니다.</li>
+                <li><strong>발송 방식:</strong> 카카오톡 알림톡으로 투표 URL을 우선 발송하며, 미수신자에게는 문자로 대체 발송합니다.</li>
+                <li><strong>투표 절차:</strong> 조합원별 개별 URL을 통해 본인 인증 후 투표를 진행합니다.</li>
+                <li><strong>발송 일정:</strong>
+                    <ul>
+                        <li>투표 첫날(11/17) 오전에 1회 발송합니다.</li>
+                        <li>이후 미투표자에게 매일 1회 발송합니다.</li>
+                        <li>선거 3일차(11/19) 전체 투표율이 50% 미만일 경우, 4일차부터 발송 횟수를 늘릴 수 있습니다.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div id="field" class="tab-content">
+            <h2>현장투표 안내</h2>
+            <ul>
+                <li><strong>실시 요건:</strong> 선거인 3인 이상인 지회에서만 현장투표를 실시할 수 있습니다.</li>
+                <li><strong>투표소 공고:</strong> 지회선관위는 선거 5일 전(11/12)까지 투표소별 장소와 투표시간을 조합원에게 공고해야 합니다. 공고된 장소는 임의로 변경할 수 없습니다.</li>
+                <li><strong>운영 기간:</strong>
+                    <ul>
+                        <li>전체 투표기간(11/17~11/21) 중 최소 2일 이상 진행해야 합니다.</li>
+                        <li>전체 투표일정 3일차(11/19) 이전에 현장투표를 개시해야 합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>투표 연장 및 종료:</strong>
+                    <ul>
+                        <li>지회 투표율이 50% 미만일 경우, 투표를 1일 이상 의무적으로 연장해야 합니다.</li>
+                        <li>단, 해당 투표소의 선거인 전원이 투표를 완료한 경우 조기 마감할 수 있습니다.</li>
+                    </ul>
+                </li>
+                <li><strong>투표 절차:</strong> 투표 개시 전 및 종료 시, 선관위원과 참관인(없을 시 첫/마지막 투표자)이 투표함 이상 유무 확인 및 봉인 절차를 거쳐야 하며, 투표록을 반드시 작성해야 합니다.</li>
+                <li><strong>투표함 이송:</strong> 지회 투표가 종료되면 투표함을 즉시 봉인하고 투표록을 첨부하여 지부선관위로 이송해야 합니다.</li>
+                <li><strong>병행 금지:</strong> 하나의 투표소 안에서 현장투표와 모바일투표를 병행할 수 없습니다.</li>
+            </ul>
+        </div>
+
+        <div id="rights" class="tab-content">
+            <h2>선거권 및 선거인명부</h2>
+            <ul>
+                <li><strong>선거권자:</strong> 선거 공고일(10/17) 현재 각 지회 조합원명부에 등재된 조합원.</li>
+                <li><strong>선거권 제한:</strong>
+                    <ul>
+                        <li>조합비를 3개월 이상 미납한 경우.</li>
+                        <li>조합에 가입한 지 30일이 지나지 않았거나, 1회의 조합비를 납부하지 않은 경우.</li>
+                        <li>공고일 이전 달의 지회 조합비 납부 인원을 초과하는 인원이 있는 경우.</li>
+                    </ul>
+                </li>
+                <li><strong>선거권 회복:</strong> 선거권 제한 사유에 해당하더라도, 선거 공고일 이후 8일 이내(10/25)에 미납 조합비 등을 납부하면 선거권을 부여받을 수 있습니다.</li>
+                <li><strong>선거인명부 열람 및 수정:</strong>
+                    <ul>
+                        <li><strong>열람기간:</strong> 10월 30일(목) ~ 11월 7일(금) 18시.</li>
+                        <li><strong>수정 마감:</strong> 11월 7일(금) 18시.</li>
+                        <li><strong>최종 확정:</strong> 11월 12일(수).</li>
+                    </ul>
+                </li>
+                <li class="note"><strong>[중요]</strong> 명부 열람기간 중 누락, 오류 등에 대해 이의를 제기하지 않으면, 이후 해당 사유로 이의신청 대상이 될 수 없습니다.</li>
+            </ul>
+
+            <h2>기타 투표 방식</h2>
+            <ul>
+                <li><strong>이메일 투표:</strong> 해외근무 조합원과 휴대전화가 없는 조합원에 한하여 실시합니다.</li>
+                <li><strong>부재자/우편 투표:</strong> 구속 수감된 조합원에 한하여 실시합니다.</li>
+            </ul>
+        </div>
+
+        <div id="committee" class="tab-content">
+            <h2>지회 선관위 주요 임무 및 주의사항</h2>
+            
+            <p class="danger"><strong>[선관위원 공통]</strong><br>
+                - 지회 선관위원은 선거의 공정성과 비밀을 보장할 책임이 있습니다.
+                - 지회 선관위원은 어떠한 경우에도 선거운동을 할 수 없습니다.
+                - 고의로 공정한 선거관리를 지연, 방해하거나 규정을 위반할 경우 제재를 받을 수 있습니다.
+            </p>
+
+            <h3>1. 선거 전 준비 및 보고</h3>
+            <ul>
+                <li><strong>지회 선관위 구성 및 선거인명부 보고(지회 -> 지부) (10/25 토요일 18시까지):</strong><br>
+                    지회 규칙에 따라 투표소 숫자 이상으로 선관위(위원장 및 위원)를 구성하여 명단을 보고해야 하며, 동시에 다음 항목을 <strong>10월 25일(토) 18시까지</strong> 지부선관위에 제출해야 합니다.
+                    <ol>
+                        <li>선거권자 명단 (선거인명부)</li>
+                        <li>투표 방식 (모바일 / 현장)</li>
+                        <li>(현장투표 시) 투표소 위치 및 운영 시간</li>
+                        <li>(현장투표 시) 현장 선관위원 명단</li>
+                    </ol>
+                </li>
+                <li class="note"><strong>[보고 누락 시]</strong> 기한 내 미제출 또는 보고 미비 시, 해당 지회의 현장투표소는 승인되지 않으며 모바일투표로 강제 전환됩니다. (선거인 3인 이상 지회 해당)</li>
+                <li><strong>선거인명부 열람 (10/30 ~ 11/7):</strong><br>
+                    열람기간 중 조합원의 확인 요청이 있을 시 즉시 명부를 확인시켜주어야 합니다. 누락, 오류 발생 시 지부선관위로 수정요청서를 제출해야 합니다.
+                </li>
+            </ul>
+
+            <h3>2. 현장투표소 운영 (현장투표 지회)</h3>
+            <ul>
+                <li><strong>투표소 설치 및 공고:</strong><br>
+                    - 1개 이상의 투표소를 지정하고, 투표소별 선관위원을 최소 1인 이상 배치해야 합니다.
+                    - 선거 5일 전(11/12)까지 투표소 장소와 시간을 조합원에게 공고해야 하며, 공고된 장소는 임의 변경이 불가합니다.
+                </li>
+                <li><strong>투표소 준비물:</strong><br>
+                    - 투표 개시 전까지 기표소, 투표함, 투표용지, 선거인명부, 투표록을 준비해야 합니다.
+                    - 지부에서 수령하고 지회에 배포합니다. 지회는 투표용지와 투표함을 수령 시 상태를 확인해야합니다.
+                    - (지회 준비) 기표기구는 지회선관위에서 준비합니다.
+                </li>
+                <li><strong>투표 개시 절차:</strong><br>
+                    - 투표 개시 전, 선관위원과 참관인(없을 시 첫 번째 투표자) 입회 하에 투표함과 기표소의 이상 유무를 확인한 후 투표함을 봉인해야 합니다.
+                    - 개시 시각, 이상 유무, 봉인 상태 등을 투표록에 기입하고 서명해야 합니다.
+                </li>
+                <li><strong>투표 진행:</strong><br>
+                    - 투표인이 본인임을 확인한 후, 선거인명부에 서명받고 투표용지를 교부합니다.
+                    - 교부하는 투표용지는 반드시 선관위 직인이 날인된 정규 용지여야 합니다.
+                    - 기표소에는 1인만 입장할 수 있으며, 지정된 기표도구를 사용해야 합니다.
+                    - 훼손 또는 오손된 투표용지는 재교부할 수 없습니다.
+                </li>
+                <li><strong>투표 종료 절차:</strong><br>
+                    - 투표 마감 시각이 되면, 참관인(없을 시 마지막 투표자) 입회 하에 투표함 투입구를 봉인합니다.
+                    - 종료 시각, 봉인 상태 등을 투표록에 기입하고 서명해야 합니다.
+                    - 투표가 2일 이상일 경우, 매일 개시/종료 절차를 동일하게 반복합니다.
+                </li>
+                <li><strong>투표함 인계:</strong><br>
+                    - 지회 투표가 최종 종료되면, 봉인된 투표함과 서명이 완료된 투표록을 함께 지부선관위에 즉시 인계(이송)해야 합니다.
+                </li>
+            </ul>
+
+            <h3>3. 참관인 관리</h3>
+            <ul>
+                <li><strong>참관 보장:</strong> 지회 선관위는 투표참관인의 참관을 보장해야 합니다.</li>
+                <li><strong>참관 제한 (필요시):</strong> 부득이하게 참관을 제한해야 할 경우, 선거 20일 전(10/28)까지 사유서(투표소, 이유 명시)를 지부선관위를 통해 중앙선관위에 제출하여 승인받아야 합니다.</li>
+                <li class="note">승인 없이 임의로 참관을 제한할 경우, 해당 투표의 효력에 이의가 제기될 수 있습니다.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        // 탭 기능
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // 오늘 날짜 및 현재 일정 표시 기능
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. 오늘 날짜 설정
+            const dateElement = document.getElementById('current-date');
+            // --- 참고: 현재 시스템 시간을 2025년 10월 20일로 가정합니다 ---
+            // 실제 배포 시에는 const today = new Date(); 를 사용해야 합니다.
+            // const today = new Date(); // 실제 배포용
+            const today = new Date("2025-10-20T16:30:00"); // (테스트용) 2025년 10월 20일
+            // ----------------------------------------------------
+
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            const week = ['일', '월', '화', '수', '목', '금', '토'][today.getDay()];
+            dateElement.textContent = `오늘 날짜: ${year}년 ${month}월 ${day}일 (${week}요일)`;
+
+            // 2. 선거 일정 데이터 정의 (주의: JavaScript의 월은 0부터 시작. 9=10월, 10=11월)
+            const schedule = [
+                { start: new Date(2025, 9, 17), end: new Date(2025, 9, 17), event: "선거공고일" },
+                { start: new Date(2025, 9, 20, 9, 0), end: new Date(2025, 9, 27, 18, 0), event: "후보 등록 기간" },
+                { start: new Date(2025, 9, 25), end: new Date(2025, 9, 25), event: "지회 선관위 구성 및 선거인명부 보고 (지회 -> 지부)" },
+                { start: new Date(2025, 9, 27, 18, 0), end: new Date(2025, 9, 27, 18, 0), event: "선거인명부 중앙선관위 보고마감" },
+                { start: new Date(2025, 9, 27, 18, 0), end: new Date(2025, 9, 27, 23, 59), event: "후보자 자격심사 및 기호추첨" },
+                { start: new Date(2025, 9, 28), end: new Date(2025, 9, 28), event: "입후보자 공고" },
+                { start: new Date(2025, 9, 28), end: new Date(2025, 10, 16), event: "선거운동 기간" },
+                { start: new Date(2025, 9, 30), end: new Date(2025, 10, 7, 18, 0), event: "선거인명부 열람기간" },
+                { start: new Date(2025, 10, 7, 18, 0), end: new Date(2025, 10, 7, 18, 0), event: "이의제기 및 수정요청 마감" },
+                { start: new Date(2025, 10, 12), end: new Date(2025, 10, 12), event: "선거인명부 최종확정" },
+                { start: new Date(2025, 10, 17, 6, 30), end: new Date(2025, 10, 21, 17, 0), event: "투표기간" },
+                { start: new Date(2025, 10, 21), end: new Date(2025, 10, 21), event: "당선자 공고" },
+                { start: new Date(2025, 10, 28), end: new Date(2025, 10, 28), event: "이의신청 마감" },
+                { start: new Date(2025, 10, 29), end: new Date(2025, 10, 29), event: "선거자료 폐기" }
+            ];
+
+            // 3. 현재 진행 중인 일정 찾기
+            const banner = document.getElementById('current-schedule-banner');
+            const currentEvents = [];
+
+            schedule.forEach(item => {
+                let eventStart = item.start;
+                let eventEnd = new Date(item.end);
+
+                // 이벤트 시작/종료일이 같고 시간이 00시_ (하루 종일 이벤트)인 경우, 비교를 위해 종료시간을 23:59:59로 설정
+                if (eventStart.toDateString() === eventEnd.toDateString() && eventEnd.getHours() === 0 && eventEnd.getMinutes() === 0) {
+                    eventEnd.setHours(23, 59, 59, 999);
+                }
+
+                // 현재 시간이 이벤트 시작/종료 시간 사이에 있는지 확인
+                if (today >= eventStart && today <= eventEnd) {
+                    currentEvents.push(item.event);
+                }
+            });
+
+            // 4. 배너에 표시
+            if (currentEvents.length > 0) {
+                banner.innerHTML = `<strong>현재 진행중인 일정:</strong> ${currentEvents.join(', ')}`;
+            } else {
+                banner.innerHTML = '<strong>현재 진행중인 선거 일정이 없습니다.</strong>';
+                banner.classList.add('none'); // 일정 없을 때 스타일 적용
+            }
+
+            // 페이지 로드 시 첫 번째 탭을 활성화
+            document.getElementsByClassName("tab-button")[0].click();
+        });
+    </script>
+
+</body>
+</html>
